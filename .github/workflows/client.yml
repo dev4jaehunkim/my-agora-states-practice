@@ -3,7 +3,7 @@ name: client
 on:
   push:
     branches:
-			# push 트리거가 동작하는지 감지할 브랜치 대상
+# push 트리거가 동작하는지 감지할 브랜치 대상
       - reference
 jobs:
   build:
@@ -12,16 +12,16 @@ jobs:
       - name: Checkout source code.
         uses: actions/checkout@v2
       - name: Install dependencies
-				# dependency 설치 명령 실행
+# dependency 설치 명령 실행
         run: npm install
         working-directory: ./my-agora-states-client
       - name: Build
-				# 빌드 명령 실행
+# 빌드 명령 실행
         run: npm run build
         working-directory: ./my-agora-states-client
       - name: SHOW AWS CLI VERSION
         env:
-					# 키는 GitHub Secret으로 추가해둔 이름을 가져옴
+# 키는 GitHub Secret으로 추가해둔 이름을 가져옴
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_EC2_METADATA_DISABLED: true
@@ -32,13 +32,13 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_EC2_METADATA_DISABLED: true
-				# 아래 명령에서 build는 현재 위치 아래에서 build 디렉터리를 의미
-				# 이를 어느 대상으로 sync해줄지 S3 URI 표시
-				# delete 옵션은 S3에는 있는데 로컬에 없는 파일을 제거
+# 아래 명령에서 build는 현재 위치 아래에서 build 디렉터리를 의미
+# 이를 어느 대상으로 sync해줄지 S3 URI 표시
+# delete 옵션은 S3에는 있는데 로컬에 없는 파일을 제거
         run: |
           aws s3 sync \
             --region ap-northeast-2 \
             build s3://fe-33-dev4jaehunkim-s3 \
             --delete
-				# 빌드된 디렉터리를 동기화
+# 빌드된 디렉터리를 동기화
         working-directory: ./my-agora-sates-client
